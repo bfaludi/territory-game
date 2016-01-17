@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Territory Stratégiai játék</title>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="css/master.css">
+
+		<script src="js/extjs/ext-all.js" type="text/javascript"></script>
+		
+		<script src="js/master.js" type="text/javascript"></script>
+		<script src="js/global.js" type="text/javascript"></script>
+		<script src="js/object.js" type="text/javascript"></script>
+		<script src="js/menu.js" type="text/javascript"></script>
+		<script src="js/game.js" type="text/javascript"></script>
+		<script src="js/map.js" type="text/javascript"></script>
+		<script src="js/polygon.js" type="text/javascript"></script>
+		<script src="js/hexagon.js" type="text/javascript"></script>
+		<script src="js/block.js" type="text/javascript"></script>
+		<script src="js/controller.js" type="text/javascript"></script>
+		<script src="js/player.js" type="text/javascript"></script>
+		<script src="js/unit.js" type="text/javascript"></script>
+		<script src="js/gfx.js" type='text/javascript'></script>
+		<script src="js/item.js" type='text/javascript'></script>
+		<script src="js/swordsman.js" type="text/javascript"></script>
+		<script src="js/archer.js" type="text/javascript"></script>
+		<script src="js/knight.js" type="text/javascript"></script>
+		<script src="js/tower.js" type="text/javascript"></script>
+		<script src="js/castle.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="overlay win">
+			<br>
+			Gratulálunk!
+			<br><br>
+			<span class="winner"></span>
+			<br>
+			nyerte az aktuális
+			<br>
+			játékot!
+			<br><br>
+			<span class="button new">
+				Új játék
+			</span>
+		</div>
+		<div class="overlay timeout">
+			<br>
+			Következő játékos
+			<br>
+			következik.
+			<br><br>
+			Az Ön ideje lejárt!
+			<br><br>
+			<span class="button next">
+				Tovább
+			</span>
+		</div>
+		<div class="overlay new"></div>
+		<div class="layer new">
+			<div class="first">
+				<div class="header">Új játék</div>
+				<div class="group">Alap adatok</div>
+				<div class="playerNumber">
+					<label for="playerNumber">Játékosok száma:</label>
+					<select name="playerNumber" id="playerNumber">
+						<option value="2" selected>2 fő</option>
+						<option value="3">3 fő</option>
+						<option value="4">4 fő</option>
+					</select>
+					<div class="clear"></div>
+				</div>
+				<div class="mapSize">
+					<label for="mapSize">Pálya mérete:</label>
+					<select name="mapSize" id="mapSize">
+						<option value="XS">apró</option>
+						<option value="S">kicsi</option>
+						<option value="M" selected>közepes</option>
+						<option value="L">nagy</option>
+						<option value="XL">óriás</option>
+					</select>
+					<div class="clear"></div>
+				</div>
+				<div class="group">Játékosok</div>
+				<div class="players"></div>
+				<div class="start">
+					<span class="button start">
+						Játék indítása
+					</span>
+				</div>
+			</div>
+			<div class="second">
+				<div class="group">Játékleírás</div>
+				<div class="text">
+					Játék kezdetekor a pályán található mezők véletlenszerűen kiosztásra kerülnek a játékosok között, összefüggő területeket, <i>birtokokat</i> generálva. 
+					A játék <i>körökre osztott</i>, egyszerre egy játékos lép, majd ha befejezte jön a következő. 
+					Köröd befejezésére legfeljebb <i>1 perc 30 másodperc</i> áll rendelkezésre.
+					Minden körben, minden egységeddel maximum egy lépést hajthatsz végre.
+					Foglald el az ellenség összes területét, és nyersz!
+				</div>
+				<div class="group">Épületek</div>
+				<div class="text">
+					<img src="img/castle.png"><b>Kastély</b>:
+					Minden birtok rendelkezik eggyel. 
+					A birtokról körönként aranyat kapsz, ebből <i>Gyalogost</i>, <i>Nyilast</i>, <i>Lovagot</i> tudsz készíteni a kastély mellé, vagy <i>Védőtornyot</i> bárhova.
+					Ha az aranykészlet elfogy a rajta található katonák meghalnak.
+					Pont olyan erős az épület, mint a birtok épületeinek száma, ha elfoglalják az egész területet elveszíted.
+					<div class="clear"></div>
+				</div>
+				<div class="text">
+					<img src="img/tower.png"><b>Védőtorony</b>:
+					Gátolja az áthaladást szűk szorosokban, és magasabb szinteken <i>képes szomszédos mezőket támadni</i> az alacsonyabb szintű egységekkel szemben. 
+					Terület elfoglalására alkalmatlan, azonban <i>egy körben korlátlan támadást végrehajthat</i>. 
+					<div class="clear"></div>
+				</div>
+				<div class="group">Egységek</div>
+				<div class="text">
+					<img src="img/swordsman.png"><b>Gyalogos</b>:
+					Közelharcos egység, <i>szomszédos mezőkre képes lépni és támadni</i>, ilyenkor a megtámadott mezőre lép.
+					Csak alacsonyabb szintű egységeket és épületeket vehet célba. 
+					Egy körben egyszer hajthat végre bármilyen lépést.
+					Magas szinten <i>kastély elfoglalásra is használható</i>.
+					<div class="clear"></div>
+				</div>
+				<div class="text">
+					<img src="img/archer.png"><b>Nyilas</b>:
+					Távolba támadó egység, amely <i>szomszédos mezőkre képes lépni</i>.
+					Egy szinttel magasabb egységekre is képes támadni, de egy szinttel alacsonyabb egységek által is támadható.
+					<i>Támadni két mező távolságra tud</i>, körönként egyszer, az egység nem változtat pozícióján.
+					Remek területek védelmére.
+					<div class="clear"></div>
+				</div>
+				<div class="text">
+					<img src="img/knight.png"><b>Lovag</b>:
+					Közelharcos egység nagy sebességgel, mivel <i>saját területeken körönkét 2 mezőnyit tud lépni</i>, azonban <i>támadni csak szomszédos mezőket tud</i>. 
+					Ilyenkor a megtámadott mezőre lép.
+					Csak alacsonyabb szintű egységeket és épületeket vehet célba.
+					Egy körben egyszer hajthat végre bármilyen lépést.
+					Magas szinten <i>kastély elfoglalásra is használható</i>.
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="layer castle">
+			<div class="header">Kastély</div>
+			<div class="group">Információk</div>
+			<div class="money"></div>
+			<div class="territory"></div>
+			<div class="building"></div>
+			<div class="unit"></div>			
+			<div class="group">Gyártás</div>
+			<div class="prod"></div>
+		</div>
+		<div class="layer unit">
+		    <div class="header"></div>
+		    <div class="msg"></div>
+		    <div class="money"></div>
+		    <div class="group">Fejlesztés</div>
+		    <div class="prod"></div>
+		</div>
+		<nav>
+			<span class="button new">
+				Új játék
+			</span>
+			<span class="button next">
+				Tovább
+			</span>
+			<span class="clock"></span>
+			<span class="player"></span>
+		</nav>
+		<canvas id="map"></canvas>
+	</body>
+</html>
